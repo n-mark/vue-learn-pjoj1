@@ -5,7 +5,7 @@ const id = "blue";
 
 <template>
   <header class="button">Лого</header>
-  <Button />
+  <Button>Сохранить</Button>
   <main :id>Контент</main>
 </template>
 
