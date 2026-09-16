@@ -5,7 +5,15 @@ const id = "blue";
 
 <template>
   <header class="button">Лого</header>
-  <Button>Сохранить</Button>
+  <Button>
+    <template #[id]>
+      +
+    </template>
+    <template #text>
+      -
+    </template>
+    Сохранить
+  </Button>
   <main :id>Контент</main>
 </template>
 

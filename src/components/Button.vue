@@ -3,7 +3,13 @@
 
 <template>
     <button class="button">
-        <slot></slot>
+        <div>
+            <slot name="blue" />
+        </div>
+        <div>
+            <slot name="text" />
+        </div>
+        <slot />
     </button>
 </template>
 
@@ -19,8 +25,8 @@
     color: var(--primary);
     cursor: pointer;
 }
+
 .button:hover {
     background: var(--gradient-inverted);
 }
 </style>
-
