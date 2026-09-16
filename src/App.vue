@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  Привет!
+  <header></header>
 </template>
 
 <style scoped>
