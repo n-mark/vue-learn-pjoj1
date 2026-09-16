@@ -1,24 +1,11 @@
-<!-- composition api -->
 <script setup>
+import Button from './components/Button.vue';
 const id = "blue";
 </script>
 
-<!-- <script>
-// option api
-export default {
-  data() {
-    return {
-      id: "blue"
-    }
-  },
-  methods: {
-
-  }
-}
-</script> -->
-
 <template>
   <header :class="`color-${id}`">Лого</header>
+  <Button />
   <main :id>Контент</main>
 </template>
 
