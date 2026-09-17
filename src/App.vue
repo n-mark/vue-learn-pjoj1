@@ -7,14 +7,29 @@ const data = {
   stat: "90%"
 }
 
-// НЕ РАБОТАЕТ
+const user = {
+  name: "Anton"
+}
 
-// function getCity(city) {
-//   console.log(city);
-//   savedCity = city;
-// }
+const handler = {
+  get(target, prop, receiver) {
+    // return "Vasia";
+    // side-effect
+    return target[prop];
+  },
+  set(obj, prop, value) {
+    if (prop == "name") {
+      console.log("Set value");
+      obj[prop] = value;
+      return true;
+    }
+  }
+}
 
-// let savedCity = "";
+const proxy = new Proxy(user, handler);
+console.log(proxy.name);
+proxy.name = "asds";
+console.log(proxy.name);
 </script>
 
 <template>
