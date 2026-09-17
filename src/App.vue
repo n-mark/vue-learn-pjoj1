@@ -7,13 +7,19 @@ const data = {
   stat: "90%"
 }
 
-function getCity(city) {
-  console.log(city)
-}
+// НЕ РАБОТАЕТ
+
+// function getCity(city) {
+//   console.log(city);
+//   savedCity = city;
+// }
+
+// let savedCity = "";
 </script>
 
 <template>
   <main class="main">
+    <!-- {{ savedCity }} -->
     <Stat v-bind="data" />
     <Stat label="Осадки" stat="0%" />
     <CitySelect @select-city="getCity" />
