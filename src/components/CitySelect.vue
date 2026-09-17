@@ -16,7 +16,8 @@ function select() {
 </script>
 
 <template>
-    <Button @click="select()" >
+    <!-- <Button @click="select()" class="test" > -->
+    <Button @click="select()">
         <IconLocation />
         Изменить город
     </Button>

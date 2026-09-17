@@ -1,9 +1,13 @@
 <script setup>
+// defineOptions({
+//     inheritAttrs: false
+// })
 </script>
 
 <template>
     <button class="button">
         <slot />
+        <!-- {{ $attrs['class'] }} -->
     </button>
 </template>
 
