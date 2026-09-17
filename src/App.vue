@@ -5,7 +5,9 @@ import Stat from './components/Stat.vue';
 
 <template>
   <main class="main">
-    <Stat />
+    <Stat label="Влажность" stat="90%" />
+    <Stat label="Осадки" stat="0%" />
+    <Stat stat="0%" />
     <Button>Сохранить</Button>
   </main>
 </template>
