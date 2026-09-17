@@ -3,12 +3,6 @@
 
 <template>
     <button class="button">
-        <div>
-            <slot name="blue" />
-        </div>
-        <div>
-            <slot name="text" />
-        </div>
         <slot />
     </button>
 </template>
@@ -24,6 +18,9 @@
     font-weight: 600;
     color: var(--primary);
     cursor: pointer;
+    display: flex;
+    gap: 9px;
+    align-items: center;
 }
 
 .button:hover {
