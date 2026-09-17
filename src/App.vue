@@ -1,20 +1,17 @@
 <script setup>
 import Button from './components/Button.vue';
-const id = "blue";
 </script>
 
 <template>
-  <header class="button">Лого</header>
-  <Button>
-    <template #[id]>
-      +
-    </template>
-    <template #text>
-      -
-    </template>
-    Сохранить
-  </Button>
-  <main :id>Контент</main>
+  <main class="main">
+    <Button>Сохранить</Button>
+  </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main {
+  background: var(--color-bg-main);
+  padding: 60px 50px;
+  border-radius: 25px;
+}
+</style>
