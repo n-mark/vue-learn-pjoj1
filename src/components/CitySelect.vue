@@ -2,10 +2,13 @@
 import IconLocation from '../icons/IconLocation.vue';
 import Button from './Button.vue';
 
+function log() {
+    console.log("LOG LOG LOG");
+}
 </script>
 
 <template>
-    <Button>
+    <Button @click="log()" >
         <IconLocation />
         Изменить город
     </Button>
