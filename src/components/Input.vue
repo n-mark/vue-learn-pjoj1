@@ -1,10 +1,10 @@
 <script setup>
-const model = defineModel();
+const data = defineModel({ type: String, required: true });
+// const additional = defineModel('additional', { type: String });
 </script>
 
 <template>
-    <!-- <input class="input" :value="model" @input="model = $event.target.value"> -->
-    <input class="input" v-model="model">
+    <input class="input" v-model="data">
 </template>
 
 <style scoped>
