@@ -35,8 +35,7 @@ function updateCity(newCity) {
     {{ city }}
     <div class="city-select">
         <div v-show="isEditing" class="input-container">
-            <!-- two-way binding -->
-            <Input placeholder="Введите город" :value="city" @update:value="updateCity" />
+            <Input placeholder="Введите город" v-model="city" />
             <Button @click="setCity()">
                 Сохранить
             </Button>
