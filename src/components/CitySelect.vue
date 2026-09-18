@@ -11,6 +11,7 @@ const emit = defineEmits({
     }
 });
 
+let city = ref("Москва");
 const isEditing = ref(false);
 
 function setEditing() {
@@ -23,12 +24,19 @@ function setCity() {
     isEditing.value = false;
 }
 
+function updateCity(newCity) {
+    console.log(newCity);
+    city.value = newCity;
+}
+
 </script>
 
 <template>
+    {{ city }}
     <div class="city-select">
         <div v-show="isEditing" class="input-container">
-            <Input placeholder="Введите город" />
+            <!-- two-way binding -->
+            <Input placeholder="Введите город" :value="city" @update:value="updateCity" />
             <Button @click="setCity()">
                 Сохранить
             </Button>

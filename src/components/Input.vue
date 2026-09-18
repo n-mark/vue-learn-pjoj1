@@ -1,7 +1,10 @@
-<script setup></script>
+<script setup>
+const props = defineProps(["value"]);
+const emit = defineEmits(['update:value'])
+</script>
 
 <template>
-    <input type="text" class="input">
+    <input class="input" :value="props.value" @input="emit('update:value', $event.target.value)">
 </template>
 
 <style scoped>
