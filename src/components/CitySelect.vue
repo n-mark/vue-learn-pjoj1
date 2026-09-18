@@ -1,6 +1,7 @@
 <script setup>
 import IconLocation from '../icons/IconLocation.vue';
 import Button from './Button.vue';
+import { ref } from 'vue';
 
 const emit = defineEmits({
     selectCity(payload) {
@@ -9,21 +10,29 @@ const emit = defineEmits({
     }
 });
 
-function select() {
+const isEditing = ref(false);
+
+function setEditing() {
+    isEditing.value = true
+    console.log(`isEditing: ${isEditing.value}`);
+}
+
+function setCity() {
     emit('selectCity', "London");
+    isEditing.value = false;
 }
 
 </script>
 
 <template>
-    <!-- <Button @click="select()" class="test" > -->
-    <Button @click="select()">
+    {{ isEditing }}
+    <Button @click="setEditing()">
         <IconLocation />
         Изменить город
     </Button>
     <div class="input-container">
         <input type="text" class="input" placeholder="Введите город">
-        <Button>
+        <Button @click="setCity()">
             Сохранить
         </Button>
     </div>
