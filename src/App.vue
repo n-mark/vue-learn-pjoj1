@@ -1,40 +1,26 @@
 <script setup>
+import { ref } from 'vue';
 import CitySelect from './components/CitySelect.vue';
 import Stat from './components/Stat.vue';
 
-const data = {
+let savedCity = ref("Moscow");
+let data = ref({
   label: "Влажность",
   stat: "90%"
-}
+});
+let arr = [1];
 
-const user = {
-  name: "Anton"
+function getCity(city) {
+  console.log(city);
+  savedCity.value = city;
+  data.value.stat = "20%";
+  arr.value.push(2);
 }
-
-const handler = {
-  get(target, prop, receiver) {
-    // return "Vasia";
-    // side-effect
-    return target[prop];
-  },
-  set(obj, prop, value) {
-    if (prop == "name") {
-      console.log("Set value");
-      obj[prop] = value;
-      return true;
-    }
-  }
-}
-
-const proxy = new Proxy(user, handler);
-console.log(proxy.name);
-proxy.name = "asds";
-console.log(proxy.name);
 </script>
 
 <template>
   <main class="main">
-    <!-- {{ savedCity }} -->
+    {{ savedCity }}
     <Stat v-bind="data" />
     <Stat label="Осадки" stat="0%" />
     <CitySelect @select-city="getCity" />
