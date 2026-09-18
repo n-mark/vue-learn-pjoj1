@@ -2,19 +2,7 @@
 import IconLocation from '../icons/IconLocation.vue';
 import Input from './Input.vue';
 import Button from './Button.vue';
-import { onBeforeMount, onMounted, onUnmounted, onUpdated, ref } from 'vue';
-
-// onMounted(() => {
-//     console.log("City select mounted");
-// });
-
-// onBeforeMount(() => {
-//     console.log("City select before mounted");
-// });
-
-// onUpdated(() => {
-//     console.log("City select updated");
-// });
+import { onBeforeMount, onMounted, onUnmounted, onUpdated, onWatcherCleanup, ref, watch, watchEffect } from 'vue';
 
 const emit = defineEmits({
     selectCity(payload) {
@@ -25,6 +13,39 @@ const emit = defineEmits({
 
 let city = ref("Москва");
 const isEditing = ref(false);
+
+// // следить за изменением в заданном рефе (1й аргумент)
+// watch(city, (newValue, oldValue) => {
+//     console.log(`new city: ${newValue}`);
+//     console.log(`old city: ${oldValue}`);
+// },
+//     // вызвать сразу после монтирования
+//     // { immediate: true }
+
+//     // вызвать один раз
+//     // { once: true }
+// );
+
+
+// // когда любой из тех которые внутри будут меняться
+// watchEffect(() => {
+//     console.log(`watcheffect city: ${city.value}`);
+//     console.log(`watcheffect isediting: ${isEditing.value}`);
+// });
+
+// watch(city, () => {
+//     console.log(city.value);
+//     // при следующей смене значения происходит cleanup
+//     // отменить таймер
+//     // или запрос к back'y и т.д.
+//     onWatcherCleanup(() => {
+//         console.log("cleanup");
+//     });
+// });
+
+// const unwatch = watchEffect(() => {});
+// unwatch();
+
 
 function setEditing() {
     isEditing.value = true
