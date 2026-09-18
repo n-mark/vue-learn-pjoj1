@@ -6,21 +6,24 @@ import Stat from './components/Stat.vue';
 let savedCity = ref("Moscow");
 let data = ref({
   humidity: 90,
-
+  rain: 0,
+  wind: 3
 });
 
 const dataModified = computed((prev) => {
   console.log(prev);
-  return {
+  return [{
     label: "Влажность",
     stat: data.value.humidity + '%'
+  }, {
+    label: "Осадки",
+    stat: data.value.rain + '%'
+  }, {
+    label: "Ветер",
+    stat: `${data.value.wind} м/c`
   }
-});
 
-const arr = ref(['Антон', 'Вася', 'Марина']);
-const obj = ref({
-  name: "Антон",
-  age: 18
+  ];
 });
 
 async function getCity(city) {
@@ -31,21 +34,8 @@ async function getCity(city) {
 
 <template>
   <main class="main">
-    <ul>
-      <!-- <li v-for="item in arr" :key="item"> -->
-      <!-- С индексом -->
-      <li v-for="(item, index) in arr" :key="item">
-        {{ index }} : {{ item }}
-      </li>
-    </ul>
-    <ul>
-      <li v-for="(value, key, idx) in obj", :key="key">
-        {{ idx }} : {{ value }}, {{ key }}
-      </li>
-    </ul>
     <div id="city">{{ savedCity }}</div>
-    <Stat v-bind="dataModified" />
-    <Stat label="Осадки" stat="0%" />
+    <Stat v-for="info in dataModified" v-bind="info" :key="info.label" />
     <CitySelect @select-city="getCity" />
   </main>
 </template>
