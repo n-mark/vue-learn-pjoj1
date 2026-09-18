@@ -25,16 +25,16 @@ function setCity() {
 </script>
 
 <template>
-    <Button @click="setEditing()">
-        <IconLocation />
-        Изменить город
-    </Button>
     <div v-if="isEditing" class="input-container">
         <input type="text" class="input" placeholder="Введите город">
         <Button @click="setCity()">
             Сохранить
         </Button>
     </div>
+    <Button v-else @click="setEditing()">
+        <IconLocation />
+        Изменить город
+    </Button>
 </template>
 
 <style scoped>

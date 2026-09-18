@@ -9,11 +9,6 @@ let data = ref({
 
 });
 
-// нет реактивной зависимости, закешируется на момент расчета
-const date = computed(() => {
-  return new Date();
-});
-
 const dataModified = computed((prev) => {
   console.log(prev);
   return {
@@ -31,7 +26,6 @@ async function getCity(city) {
 
 <template>
   <main class="main">
-    {{ date }}
     <div id="city">{{ savedCity }}</div>
     <Stat v-bind="dataModified" />
     <Stat label="Осадки" stat="0%" />
