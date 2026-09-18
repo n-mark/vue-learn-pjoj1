@@ -21,10 +21,13 @@
     font-size: 20px;
     font-weight: 600;
     color: var(--primary);
+    height: 53px;
     cursor: pointer;
     display: flex;
     gap: 9px;
     align-items: center;
+    width: 100%;
+    justify-content: center;
 }
 
 .button:hover {
