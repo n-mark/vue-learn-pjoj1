@@ -2,7 +2,19 @@
 import IconLocation from '../icons/IconLocation.vue';
 import Input from './Input.vue';
 import Button from './Button.vue';
-import { ref } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, onUpdated, ref } from 'vue';
+
+// onMounted(() => {
+//     console.log("City select mounted");
+// });
+
+// onBeforeMount(() => {
+//     console.log("City select before mounted");
+// });
+
+// onUpdated(() => {
+//     console.log("City select updated");
+// });
 
 const emit = defineEmits({
     selectCity(payload) {
@@ -34,7 +46,7 @@ function updateCity(newCity) {
 <template>
     {{ city }}
     <div class="city-select">
-        <div v-show="isEditing" class="input-container">
+        <div v-if="isEditing" class="input-container">
             <!-- можно иметь несколько v-model -->
             <!-- <Input placeholder="Введите город" v-model="city" v-model:additional="city" /> -->
             <Input placeholder="Введите город" v-model="city" />
@@ -42,7 +54,7 @@ function updateCity(newCity) {
                 Сохранить
             </Button>
         </div>
-        <Button v-show="!isEditing" @click="setEditing()">
+        <Button v-if="!isEditing" @click="setEditing()">
             <IconLocation />
             Изменить город
         </Button>

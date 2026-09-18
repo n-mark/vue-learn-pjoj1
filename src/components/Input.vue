@@ -1,6 +1,23 @@
 <script setup>
+import { onUpdated, onUnmounted, onMounted } from 'vue';
+
 const data = defineModel({ type: String, required: true });
 // const additional = defineModel('additional', { type: String });
+
+
+onMounted(() => {
+    console.log("Input mounted");
+});
+
+
+onUpdated(() => {
+    console.log("input updated");
+});
+
+onUnmounted(() => {
+    console.log("Input unmounted");
+});
+
 </script>
 
 <template>
