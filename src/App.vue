@@ -17,6 +17,11 @@ const dataModified = computed((prev) => {
   }
 });
 
+const arr = ref(['Антон', 'Вася', 'Марина']);
+const obj = ref({
+  name: "Антон",
+  age: 18
+});
 
 async function getCity(city) {
   savedCity.value = city;
@@ -26,6 +31,18 @@ async function getCity(city) {
 
 <template>
   <main class="main">
+    <ul>
+      <!-- <li v-for="item in arr" :key="item"> -->
+      <!-- С индексом -->
+      <li v-for="(item, index) in arr" :key="item">
+        {{ index }} : {{ item }}
+      </li>
+    </ul>
+    <ul>
+      <li v-for="(value, key, idx) in obj", :key="key">
+        {{ idx }} : {{ value }}, {{ key }}
+      </li>
+    </ul>
     <div id="city">{{ savedCity }}</div>
     <Stat v-bind="dataModified" />
     <Stat label="Осадки" stat="0%" />
