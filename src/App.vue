@@ -8,8 +8,23 @@ let data = reactive({
   label: "Влажность",
   stat: "90%"
 });
-let arr = ref([1]);
-let map = ref(new Map([['1', 1]]));
+
+const counter = reactive({
+  count: ref(0)
+});
+// автоматическая развертка в случае объекта
+counter.count++;
+console.log(counter.count);
+
+// В обоих случаях ниже автоматической развертки происходить не будет
+const map = reactive(new Map([["count", ref(0)]]));
+map.get("count").value;
+
+const arr = reactive([ref(0)]);
+arr[0].value;
+
+const obj = { id: ref(1) };
+
 
 function getCity(city) {
   console.log(city);
@@ -23,8 +38,7 @@ function getCity(city) {
 <template>
   <main class="main">
     {{ savedCity }}
-    {{ arr }}
-    {{ map }}
+    {{ obj.id }}
     <Stat v-bind="data" />
     <Stat label="Осадки" stat="0%" />
     <CitySelect @select-city="getCity" />
