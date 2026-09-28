@@ -3,6 +3,8 @@ import { computed, reactive, ref } from 'vue';
 import CitySelect from './components/CitySelect.vue';
 import Stat from './components/Stat.vue';
 
+const API_ENDPOINT = "https://api.weatherapi.com/v1";
+
 let savedCity = ref("Moscow");
 let data = ref({
   humidity: 90,
@@ -27,8 +29,15 @@ const dataModified = computed((prev) => {
 });
 
 async function getCity(city) {
-  savedCity.value = city;
-  data.value.humidity = 20;
+  const params = new URLSearchParams({
+    q: city.value,
+    lang: "ru",
+    key: "0620fb37fdbb4607bf9101920262809",
+    days: 3
+  })
+  const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
+  const data = await res.json();
+  console.log(data);
 }
 </script>
 

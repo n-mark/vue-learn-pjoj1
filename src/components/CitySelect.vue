@@ -14,38 +14,9 @@ const emit = defineEmits({
 let city = ref("Москва");
 const isEditing = ref(false);
 
-// // следить за изменением в заданном рефе (1й аргумент)
-// watch(city, (newValue, oldValue) => {
-//     console.log(`new city: ${newValue}`);
-//     console.log(`old city: ${oldValue}`);
-// },
-//     // вызвать сразу после монтирования
-//     // { immediate: true }
-
-//     // вызвать один раз
-//     // { once: true }
-// );
-
-
-// // когда любой из тех которые внутри будут меняться
-// watchEffect(() => {
-//     console.log(`watcheffect city: ${city.value}`);
-//     console.log(`watcheffect isediting: ${isEditing.value}`);
-// });
-
-// watch(city, () => {
-//     console.log(city.value);
-//     // при следующей смене значения происходит cleanup
-//     // отменить таймер
-//     // или запрос к back'y и т.д.
-//     onWatcherCleanup(() => {
-//         console.log("cleanup");
-//     });
-// });
-
-// const unwatch = watchEffect(() => {});
-// unwatch();
-
+onMounted(() => {
+    emit("selectCity", city.value);
+})
 
 function setEditing() {
     isEditing.value = true
@@ -53,7 +24,7 @@ function setEditing() {
 }
 
 function setCity() {
-    emit('selectCity', "London");
+    emit('selectCity', city);
     isEditing.value = false;
 }
 
@@ -68,8 +39,6 @@ function updateCity(newCity) {
     {{ city }}
     <div class="city-select">
         <div v-if="isEditing" class="input-container">
-            <!-- можно иметь несколько v-model -->
-            <!-- <Input placeholder="Введите город" v-model="city" v-model:additional="city" /> -->
             <Input placeholder="Введите город" v-model="city" />
             <Button @click="setCity()">
                 Сохранить
