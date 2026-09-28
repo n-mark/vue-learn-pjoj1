@@ -8,9 +8,13 @@ const API_ENDPOINT = "https://api.weatherapi.com/v1";
 let savedCity = ref("Moscow");
 let data = ref({
   humidity: 90,
-  rain: 0,
+  cloud: 0,
   wind: 3
 });
+
+let dataReceived = ref({
+
+})
 
 const dataModified = computed((prev) => {
   console.log(prev);
@@ -18,8 +22,8 @@ const dataModified = computed((prev) => {
     label: "Влажность",
     stat: data.value.humidity + '%'
   }, {
-    label: "Осадки",
-    stat: data.value.rain + '%'
+    label: "Облачность",
+    stat: data.value.cloud + '%'
   }, {
     label: "Ветер",
     stat: `${data.value.wind} м/c`
@@ -36,8 +40,14 @@ async function getCity(city) {
     days: 3
   })
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
-  const data = await res.json();
-  console.log(data);
+  const d = await res.json();
+  data.value = {
+    humidity: d.current.humidity,
+    cloud: d.current.cloud,
+    wind: d.current.wind_kph 
+  }
+  savedCity.value = d.location.name;
+  console.log(d);
 }
 </script>
 

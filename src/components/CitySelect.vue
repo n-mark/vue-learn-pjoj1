@@ -28,18 +28,12 @@ function setCity() {
     isEditing.value = false;
 }
 
-function updateCity(newCity) {
-    console.log(newCity);
-    city.value = newCity;
-}
-
 </script>
 
 <template>
-    {{ city }}
     <div class="city-select">
         <div v-if="isEditing" class="input-container">
-            <Input placeholder="Введите город" v-model="city" />
+            <Input placeholder="Введите город" v-model="city" @keyup.enter="setCity()"/>
             <Button @click="setCity()">
                 Сохранить
             </Button>
