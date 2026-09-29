@@ -3,7 +3,9 @@ import { computed, ref } from "vue";
 import CitySelect from "./components/CitySelect.vue";
 import Stat from "./components/Stat.vue";
 import Error from "./components/Error.vue";
-
+import IconSun from "./icons/IconSun.vue";
+import IconCloud from "./icons/IconCloud.vue";
+import IconRain from "./icons/IconRain.vue";
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 const errorMap = new Map([[1006, "Указанный город не найден"]]);
@@ -56,6 +58,9 @@ async function getCity(city) {
 <template>
   <main class="main">
     <Error :error="errorDisplay" />
+    <IconSun size="65"/>
+    <IconCloud size="65" />
+    <IconRain size="65" />
     <Stat v-for="item in dataModified" v-bind="item" :key="item.label" />
     <CitySelect @select-city="getCity" />
   </main>
