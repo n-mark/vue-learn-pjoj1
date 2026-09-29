@@ -7,6 +7,7 @@ const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 let savedCity = ref("Moscow");
 let data = ref();
+let requestFailed = ref(false);
 
 const dataModified = computed((prev) => {
   if (!data.value) {
@@ -35,13 +36,20 @@ async function getCity(city) {
     days: 3
   })
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
+  if (res.status === 400) {
+    requestFailed.value = true;
+  } else {
+    requestFailed.value = false;
+  }
   data.value = await res.json();
+  savedCity.value = data.value.location.name;
 }
 </script>
 
 <template>
   <main class="main">
-    <div id="city">{{ savedCity }}</div>
+    <div v-if="requestFailed">Указанный город не найден</div>
+    <div v-else id="city">{{ savedCity }}</div>
     <Stat v-for="info in dataModified" v-bind="info" :key="info.label" />
     <CitySelect @select-city="getCity" />
   </main>
