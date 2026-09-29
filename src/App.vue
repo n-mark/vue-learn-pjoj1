@@ -1,56 +1,62 @@
 <script setup>
-import { computed, reactive, ref } from 'vue';
-import CitySelect from './components/CitySelect.vue';
-import Stat from './components/Stat.vue';
+import { computed, ref } from "vue";
+import CitySelect from "./components/CitySelect.vue";
+import Stat from "./components/Stat.vue";
+import Error from "./components/Error.vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
-let savedCity = ref("Moscow");
-let data = ref();
-let requestFailed = ref(false);
+const errorMap = new Map([[1006, "Указанный город не найден"]]);
 
-const dataModified = computed((prev) => {
+let data = ref();
+let error = ref();
+
+const errorDisplay = computed(() => {
+  return errorMap.get(error.value?.error?.code);
+});
+
+const dataModified = computed(() => {
   if (!data.value) {
     return [];
   }
-  console.log(prev);
-  return [{
-    label: "Влажность",
-    stat: data.value.current.humidity + '%'
-  }, {
-    label: "Облачность",
-    stat: data.value.current.cloud + '%'
-  }, {
-    label: "Ветер",
-    stat: `${data.value.current.wind_kph} км/ч`
-  }
-
+  return [
+    {
+      label: "Влажность",
+      stat: data.value.current.humidity + " %",
+    },
+    {
+      label: "Облачность",
+      stat: data.value.current.cloud + " %",
+    },
+    {
+      label: "Ветер",
+      stat: data.value.current.wind_kph + " км/ч",
+    },
   ];
 });
 
 async function getCity(city) {
   const params = new URLSearchParams({
-    q: city.value,
+    q: city,
     lang: "ru",
     key: "0620fb37fdbb4607bf9101920262809",
     days: 3
   })
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
-  if (res.status === 400) {
-    requestFailed.value = true;
-  } else {
-    requestFailed.value = false;
+  if (res.status != 200) {
+    error.value = await res.json();
+    data.value = null;
+    return;
   }
+  error.value = null;
   data.value = await res.json();
-  savedCity.value = data.value.location.name;
 }
 </script>
 
 <template>
   <main class="main">
-    <div v-if="requestFailed">Указанный город не найден</div>
-    <div v-else id="city">{{ savedCity }}</div>
-    <Stat v-for="info in dataModified" v-bind="info" :key="info.label" />
+    <Error :error="errorDisplay" />
+    <Stat v-for="item in dataModified" v-bind="item" :key="item.label" />
     <CitySelect @select-city="getCity" />
   </main>
 </template>
