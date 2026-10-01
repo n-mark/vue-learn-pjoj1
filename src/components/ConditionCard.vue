@@ -1,87 +1,56 @@
 <script setup>
-import { computed } from "vue";
-const props = defineProps({
-    icon: [Object, Function],
-    dayOfWeek: String,
+import IconCloud from '../icons/IconCloud.vue';
+import IconSun from '../icons/IconSun.vue';
+
+const { weatherCode, temperature, date } = defineProps({
+    weatherCode: String,
     temperature: Number,
-    unitOfMeasure: String,
-    type: String
+    date: Date
 });
 
-
-const iconColor = computed(() => {
-    return props.type === 'current' ? 'black' : 'white';
-})
 
 </script>
 
 <template>
-    <div class="card" :class="type">
-        <component :is="icon" :color="iconColor" />
-        <div class="day">{{ dayOfWeek }}</div>
-        <div class="info">{{ temperature }} {{ unitOfMeasure }}</div>
-    </div>
+    <button class="day-card">
+        <IconSun v-if="weatherCode == 1000" />
+        <IconCloud v-if="weatherCode == 1003" />
+        <IconRain v-if="weatherCode == 1009" />
+        <div class="day-card__day">
+            {{ date.toLocaleDateString('ru-RU', { weekday: "short" }) }}
+        </div>
+        <div class="day-card__temp">
+            {{ temperature }} °C
+        </div>
+    </button>
 </template>
 
 <style scoped>
-/* Общие стили карточки — вынести в отдельный класс */
-.card {
+.day-card {
+    color: var(--color-primary);
+    padding: 20px 24px;
+    background-color: var(--color-bg-card);
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
-    width: 104px;
-    height: 168px;
+    justify-content: center;
+    gap: 15px;
     border-radius: 10px;
-    padding: 15px;
-    transition: background-color 0.3s ease;
+    box-shadow: 1px 2px 4px 0px #222831;
+    border: none;
 }
 
-/* Стили по типу */
-.current {
-    background-color: aliceblue;
+.day-card:hover {
+    background-color: #3a434f;
 }
 
-.forecast {
-    background-color: #272e37;
+.day-card__day {
+    font-size: 20px;
 }
 
-.forecast:hover {
-    box-shadow: 1px 2px 4px 0 #222831;
-    background: #3a434f;
-}
-
-/* Вложенные элементы внутри .current */
-.current .info {
-    font-family: var(--font-family);
+.day-card__temp {
+    font-size: 20px;
+    font-style: normal;
     font-weight: 700;
-    font-size: 20px;
-    text-align: center;
-    color: #000;
-}
-
-.current .day {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 20px;
-    text-align: center;
-    color: #000;
-}
-
-/* Вложенные элементы внутри .forecast */
-.forecast .info {
-    font-family: var(--font-family);
-    font-weight: 700;
-    font-size: 20px;
-    text-align: center;
-    color: #fff;
-}
-
-.forecast .day {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 20px;
-    text-align: center;
-    color: #fff;
 }
 </style>
