@@ -16,9 +16,6 @@ const errorDisplay = computed(() => {
 });
 
 const dataModified = computed(() => {
-  if (!data.value) {
-    return [];
-  }
   return [
     {
       label: "Влажность",
@@ -35,12 +32,37 @@ const dataModified = computed(() => {
   ];
 });
 
+const forecast = computed(() => {
+  return [
+    {
+      weatherCode: data.value.forecast.forecastday[0].day.condition.code,
+      date: data.value.forecast.forecastday[0].date,
+      temperature: data.value.forecast.forecastday[0].day.maxtemp_c
+    },
+    {
+      weatherCode: data.value.forecast.forecastday[1].day.condition.code,
+      date: data.value.forecast.forecastday[1].date,
+      temperature: data.value.forecast.forecastday[1].day.maxtemp_c
+    },
+    {
+      weatherCode: data.value.forecast.forecastday[2].day.condition.code,
+      date: data.value.forecast.forecastday[2].date,
+      temperature: data.value.forecast.forecastday[2].day.maxtemp_c
+    },
+    {
+      weatherCode: data.value.forecast.forecastday[3].day.condition.code,
+      date: data.value.forecast.forecastday[3].date,
+      temperature: data.value.forecast.forecastday[3].day.maxtemp_c
+    }
+  ]
+})
+
 async function getCity(city) {
   const params = new URLSearchParams({
     q: city,
     lang: "ru",
     key: "0620fb37fdbb4607bf9101920262809",
-    days: 3
+    days: 4
   })
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
 
@@ -58,8 +80,14 @@ async function getCity(city) {
 <template>
   <main class="main">
     <Error :error="errorDisplay" />
-    <Stat v-for="item in dataModified" v-bind="item" :key="item.label" />
-    <ConditionCard weather-code="1000" temperature="30" :date="new Date()" />
+    <div v-if="data" class="stat-data">
+      <div class="stat-list">
+        <Stat v-for="item in dataModified" v-bind="item" :key="item.label" />
+      </div>
+      <div class="day-card-list">
+        <ConditionCard v-for="value in forecast" v-bind="value" :key="value.date" />
+      </div>
+    </div>
     <CitySelect @select-city="getCity" />
   </main>
 </template>
@@ -69,5 +97,23 @@ async function getCity(city) {
   background: var(--color-bg-main);
   padding: 60px 50px;
   border-radius: 25px;
+}
+
+.day-card-list {
+  display: flex;
+  gap: 1px;
+}
+
+.stat-data {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  margin-bottom: 70px;
+}
+
+.stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 </style>

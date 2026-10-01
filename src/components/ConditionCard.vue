@@ -1,11 +1,12 @@
 <script setup>
 import IconCloud from '../icons/IconCloud.vue';
 import IconSun from '../icons/IconSun.vue';
+import IconRain from '../icons/IconRain.vue';
 
 const { weatherCode, temperature, date } = defineProps({
-    weatherCode: String,
+    weatherCode: Number,
     temperature: Number,
-    date: Date
+    date: String
 });
 
 
@@ -17,7 +18,7 @@ const { weatherCode, temperature, date } = defineProps({
         <IconCloud v-if="weatherCode == 1003" />
         <IconRain v-if="weatherCode == 1009" />
         <div class="day-card__day">
-            {{ date.toLocaleDateString('ru-RU', { weekday: "short" }) }}
+            {{ new Date(date).toLocaleDateString('ru-RU', { weekday: "short" }) }}
         </div>
         <div class="day-card__temp">
             {{ temperature }} °C
@@ -38,6 +39,7 @@ const { weatherCode, temperature, date } = defineProps({
     border-radius: 10px;
     box-shadow: 1px 2px 4px 0px #222831;
     border: none;
+    width: 100%;
 }
 
 .day-card:hover {
