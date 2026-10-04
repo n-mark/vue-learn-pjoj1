@@ -38,33 +38,33 @@ const forecast = computed(() => {
     {
       weatherCode: data.value.forecast.forecastday[0].day.condition.code,
       date: data.value.forecast.forecastday[0].date,
-      temperature: data.value.forecast.forecastday[0].day.maxtemp_c
+      temperature: data.value.forecast.forecastday[0].day.maxtemp_c,
     },
     {
       weatherCode: data.value.forecast.forecastday[1].day.condition.code,
       date: data.value.forecast.forecastday[1].date,
-      temperature: data.value.forecast.forecastday[1].day.maxtemp_c
+      temperature: data.value.forecast.forecastday[1].day.maxtemp_c,
     },
     {
       weatherCode: data.value.forecast.forecastday[2].day.condition.code,
       date: data.value.forecast.forecastday[2].date,
-      temperature: data.value.forecast.forecastday[2].day.maxtemp_c
+      temperature: data.value.forecast.forecastday[2].day.maxtemp_c,
     },
     {
       weatherCode: data.value.forecast.forecastday[3].day.condition.code,
       date: data.value.forecast.forecastday[3].date,
-      temperature: data.value.forecast.forecastday[3].day.maxtemp_c
-    }
-  ]
-})
+      temperature: data.value.forecast.forecastday[3].day.maxtemp_c,
+    },
+  ];
+});
 
 async function getCity(city) {
   const params = new URLSearchParams({
     q: city,
     lang: "ru",
     key: "0620fb37fdbb4607bf9101920262809",
-    days: 4
-  })
+    days: 4,
+  });
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
 
   if (res.status != 200) {
@@ -75,30 +75,54 @@ async function getCity(city) {
   error.value = null;
   data.value = await res.json();
 }
-
 </script>
 
 <template>
   <main class="main">
-    <Error :error="errorDisplay" />
-    <div v-if="data" class="stat-data">
-      <div class="stat-list">
-        <Stat v-for="item in dataModified" v-bind="item" :key="item.label" />
-      </div>
-      <div class="day-card-list">
-        <ConditionCard v-for="(value, idx) in forecast" v-bind="value" :is-active="activeIndex == idx"
-          :key="value.date" @click="() => (activeIndex = idx)" />
-      </div>
+    <div class="left">
+
     </div>
-    <CitySelect @select-city="getCity" />
+    <div class="right">
+      <Error :error="errorDisplay" />
+      <div v-if="data" class="stat-data">
+        <div class="stat-list">
+          <Stat v-for="item in dataModified" v-bind="item" :key="item.label" />
+        </div>
+        <div class="day-card-list">
+          <ConditionCard
+            v-for="(value, idx) in forecast"
+            v-bind="value"
+            :is-active="activeIndex == idx"
+            :key="value.date"
+            @click="() => (activeIndex = idx)"
+          />
+        </div>
+      </div>
+      <CitySelect @select-city="getCity" />
+    </div>
   </main>
 </template>
 
 <style scoped>
 .main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
   background: var(--color-bg-main);
   padding: 60px 50px;
-  border-radius: 25px;
+  border-radius: 0 25px 25px 0;
+}
+
+.left {
+  width: 500px;
+  height: 680px;
+  border-radius: 30px;
+  background-image: url('/public/bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .day-card-list {
