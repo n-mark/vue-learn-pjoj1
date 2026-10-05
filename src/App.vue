@@ -1,62 +1,13 @@
 <script setup>
-import { computed, ref } from "vue";
-import CitySelect from "./components/CitySelect.vue";
-import Stat from "./components/Stat.vue";
-import Error from "./components/Error.vue";
-import ConditionCard from "./components/ConditionCard.vue";
-const API_ENDPOINT = "https://api.weatherapi.com/v1";
+import PaneRight from "./components/PaneRight.vue";
+import { ref } from "vue";
 
-const errorMap = new Map([[1006, "Указанный город не найден"]]);
+const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 let data = ref();
 let error = ref();
+
 let activeIndex = ref(0);
-
-const errorDisplay = computed(() => {
-  return errorMap.get(error.value?.error?.code);
-});
-
-const dataModified = computed(() => {
-  return [
-    {
-      label: "Влажность",
-      stat: data.value.current.humidity + " %",
-    },
-    {
-      label: "Облачность",
-      stat: data.value.current.cloud + " %",
-    },
-    {
-      label: "Ветер",
-      stat: data.value.current.wind_kph + " км/ч",
-    },
-  ];
-});
-
-const forecast = computed(() => {
-  return [
-    {
-      weatherCode: data.value.forecast.forecastday[0].day.condition.code,
-      date: data.value.forecast.forecastday[0].date,
-      temperature: data.value.forecast.forecastday[0].day.maxtemp_c,
-    },
-    {
-      weatherCode: data.value.forecast.forecastday[1].day.condition.code,
-      date: data.value.forecast.forecastday[1].date,
-      temperature: data.value.forecast.forecastday[1].day.maxtemp_c,
-    },
-    {
-      weatherCode: data.value.forecast.forecastday[2].day.condition.code,
-      date: data.value.forecast.forecastday[2].date,
-      temperature: data.value.forecast.forecastday[2].day.maxtemp_c,
-    },
-    {
-      weatherCode: data.value.forecast.forecastday[3].day.condition.code,
-      date: data.value.forecast.forecastday[3].date,
-      temperature: data.value.forecast.forecastday[3].day.maxtemp_c,
-    },
-  ];
-});
 
 async function getCity(city) {
   const params = new URLSearchParams({
@@ -79,26 +30,15 @@ async function getCity(city) {
 
 <template>
   <main class="main">
-    <div class="left">
-
-    </div>
+    <div class="left"></div>
     <div class="right">
-      <Error :error="errorDisplay" />
-      <div v-if="data" class="stat-data">
-        <div class="stat-list">
-          <Stat v-for="item in dataModified" v-bind="item" :key="item.label" />
-        </div>
-        <div class="day-card-list">
-          <ConditionCard
-            v-for="(value, idx) in forecast"
-            v-bind="value"
-            :is-active="activeIndex == idx"
-            :key="value.date"
-            @click="() => (activeIndex = idx)"
-          />
-        </div>
-      </div>
-      <CitySelect @select-city="getCity" />
+      <PaneRight
+        :data
+        :error
+        :active-index="activeIndex"
+        @select-index="(idx) => (activeIndex = idx)"
+        @select-city="getCity"
+      />
     </div>
   </main>
 </template>
@@ -120,26 +60,8 @@ async function getCity(city) {
   width: 500px;
   height: 680px;
   border-radius: 30px;
-  background-image: url('/public/bg.png');
+  background-image: url("/public/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
-}
-
-.day-card-list {
-  display: flex;
-  gap: 1px;
-}
-
-.stat-data {
-  display: flex;
-  flex-direction: column;
-  gap: 80px;
-  margin-bottom: 70px;
-}
-
-.stat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 </style>
