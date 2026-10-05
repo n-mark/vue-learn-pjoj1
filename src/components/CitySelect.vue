@@ -1,52 +1,61 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, inject, provide } from "vue";
 import IconLocation from "../icons/IconLocation.vue";
 import Button from "./Button.vue";
 import Input from "./Input.vue";
 
 const emit = defineEmits({
-    selectCity(payload) {
-        return payload;
-    },
+  selectCity(payload) {
+    return payload;
+  },
 });
 
 let city = ref("Moscow");
 let isEdited = ref(false);
 
+const val = inject("num");
+// console.log("val: " + val);
+console.log("val: " + val.value);
+val.value = 1;
+
 onMounted(() => {
-    emit("selectCity", city.value);
+  emit("selectCity", city.value);
 });
 
 function select() {
-    isEdited.value = false;
-    emit("selectCity", city.value);
+  isEdited.value = false;
+  emit("selectCity", city.value);
 }
 
 function edit() {
-    isEdited.value = true;
+  isEdited.value = true;
 }
 </script>
 
 <template>
-    <div class="city-select">
-        <div v-if="isEdited" class="city-input">
-            <Input v-model="city" placeholder="Введите город" @keyup.enter="select()" />
-            <Button @click="select()">Сохранить</Button>
-        </div>
-        <Button v-if="!isEdited" @click="edit()">
-            <IconLocation />
-            Изменить город
-        </Button>
+  <div class="city-select">
+    <div v-if="isEdited" class="city-input">
+      <Input
+        v-model="city"
+        placeholder="Введите город"
+        @keyup.enter="select()"
+      />
+      <Button @click="select()">Сохранить</Button>
     </div>
+    <Button v-if="!isEdited" @click="edit()">
+      <IconLocation />
+      Изменить город
+    </Button>
+  </div>
 </template>
 
 <style scoped>
 .city-input {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 12px;
 }
 
 .city-select {
-    width: 420px;
+  width: 420px;
 }
 </style>

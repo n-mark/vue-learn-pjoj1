@@ -1,13 +1,15 @@
 <script setup>
 import PaneRight from "./components/PaneRight.vue";
-import { ref } from "vue";
+import { inject, provide, ref } from "vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 let data = ref();
 let error = ref();
-
 let activeIndex = ref(0);
+
+// provide("num", 1);
+provide("num", activeIndex);
 
 async function getCity(city) {
   const params = new URLSearchParams({
