@@ -81,7 +81,7 @@ const forecast = computed(() => {
       />
     </div>
   </div>
-  <CitySelect @select-city="(city) => emit('select-city', city)" />
+  <CitySelect />
 </template>
 
 <style scoped>

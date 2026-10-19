@@ -1,6 +1,6 @@
 <script setup>
 import PaneRight from "./components/PaneRight.vue";
-import { inject, provide, ref } from "vue";
+import { inject, onMounted, provide, ref, watch } from "vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
@@ -8,8 +8,16 @@ let data = ref();
 let error = ref();
 let activeIndex = ref(0);
 
-// provide("num", 1);
-provide("num", activeIndex);
+let city = ref("Moscow");
+provide("city", city);
+
+watch(city, () => {
+  getCity(city.value);
+});
+
+onMounted(() => {
+  getCity(city.value);
+});
 
 async function getCity(city) {
   const params = new URLSearchParams({
@@ -39,7 +47,6 @@ async function getCity(city) {
         :error
         :active-index="activeIndex"
         @select-index="(idx) => (activeIndex = idx)"
-        @select-city="getCity"
       />
     </div>
   </main>
