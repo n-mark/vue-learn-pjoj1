@@ -27,15 +27,15 @@ const dataModified = computed(() => {
   return [
     {
       label: "Влажность",
-      stat: data.current.humidity + " %",
+      stat: data.forecast.forecastday[activeIndex].hour[0].humidity + " %",
     },
     {
-      label: "Облачность",
-      stat: data.current.cloud + " %",
+      label: "Вероятность дождя",
+      stat: data.forecast.forecastday[activeIndex].hour[0].chance_of_rain + " %",
     },
     {
       label: "Ветер",
-      stat: data.current.wind_kph + " км/ч",
+      stat: data.forecast.forecastday[activeIndex].hour[0].wind_kph + " км/ч",
     },
   ];
 });

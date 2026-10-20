@@ -18,6 +18,7 @@ const { label = "Не задано", stat } = defineProps({
     display: flex;
     justify-content: space-between;
     gap: 16px;
+    width: 415px;
 }
 
 .stat-name {
@@ -27,5 +28,10 @@ const { label = "Не задано", stat } = defineProps({
 
 .stat-value {
     font-weight: 50;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
 }
 </style>
