@@ -1,6 +1,7 @@
 <script setup>
 import PaneRight from "./components/PaneRight.vue";
 import { inject, onMounted, provide, ref, watch } from "vue";
+import { cityProvide } from "./constants.js";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
@@ -9,7 +10,7 @@ let error = ref();
 let activeIndex = ref(0);
 
 let city = ref("Москва");
-provide("city", city);
+provide(cityProvide, city);
 
 watch(city, () => {
   getCity(city.value);
@@ -42,12 +43,7 @@ async function getCity(city) {
   <main class="main">
     <div class="left"></div>
     <div class="right">
-      <PaneRight
-        :data
-        :error
-        :active-index="activeIndex"
-        @select-index="(idx) => (activeIndex = idx)"
-      />
+      <PaneRight :data :error :active-index="activeIndex" @select-index="(idx) => (activeIndex = idx)" />
     </div>
   </main>
 </template>

@@ -3,10 +3,11 @@ import { ref, inject } from "vue";
 import IconLocation from "../icons/IconLocation.vue";
 import Button from "./Button.vue";
 import Input from "./Input.vue";
+import { cityProvide } from "../constants.js";
 
 let isEdited = ref(false);
 
-const city = inject("city");
+const city = inject(cityProvide);
 const inputValue = ref(city);
 
 function select() {
