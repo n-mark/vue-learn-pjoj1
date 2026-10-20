@@ -2,6 +2,7 @@
 import PaneRight from "./components/PaneRight.vue";
 import { inject, onMounted, provide, ref, watch } from "vue";
 import { cityProvide } from "./constants.js";
+import PaneLeft from "./components/PaneLeft.vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
@@ -25,7 +26,7 @@ async function getCity(city) {
     q: city,
     lang: "ru",
     key: "0620fb37fdbb4607bf9101920262809",
-    days: 4,
+    days: 3,
   });
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
 
@@ -37,11 +38,14 @@ async function getCity(city) {
   error.value = null;
   data.value = await res.json();
 }
+
 </script>
 
 <template>
   <main class="main">
-    <div class="left"></div>
+    <div class="left">
+      <PaneLeft :data :idx="activeIndex" />
+    </div>
     <div class="right">
       <PaneRight :data :error :active-index="activeIndex" @select-index="(idx) => (activeIndex = idx)" />
     </div>
@@ -68,5 +72,8 @@ async function getCity(city) {
   background-image: url("/public/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

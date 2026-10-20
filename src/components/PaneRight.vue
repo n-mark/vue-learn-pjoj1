@@ -5,7 +5,7 @@ import Error from "./Error.vue";
 import ConditionCard from "./ConditionCard.vue";
 import { computed } from "vue";
 
-const { error, data, activeIndex } = defineProps({
+const { error, data, activeIndex } = defineProps({ 
   error: Object,
   data: Object,
   activeIndex: Number,
