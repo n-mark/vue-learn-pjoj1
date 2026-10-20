@@ -44,7 +44,7 @@ async function getCity(city) {
 <template>
   <main class="main">
     <div class="left">
-      <PaneLeft :data :idx="activeIndex" />
+      <PaneLeft v-if="data" :day-data="data.forecast.forecastday[activeIndex]"/>
     </div>
     <div class="right">
       <PaneRight :data :error :active-index="activeIndex" @select-index="(idx) => (activeIndex = idx)" />

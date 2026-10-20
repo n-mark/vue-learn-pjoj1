@@ -1,37 +1,32 @@
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, inject, watch } from 'vue';
 import IconLocation from '../icons/IconLocation.vue';
 import IconSun from '../icons/IconSun.vue';
 import IconCloud from '../icons/IconCloud.vue';
 import IconRain from '../icons/IconRain.vue';
+import { cityProvide } from '../constants.js';
 
-const { data, idx = 0 } = defineProps({
-    data: Object,
-    idx: Number
+const { dayData } = defineProps({
+    dayData: Object,
 });
 
+const city = inject(cityProvide);
+
 const displayData = computed(() => {
-    if (!data) {
+    if (!dayData) {
         return undefined;
     }
 
-    console.log(data);
+    console.log(dayData);
 
     return {
-        dayOfWeek: capitalize(new Date(data.forecast.forecastday[idx].date).toLocaleDateString('ru-RU', { weekday: "long" })),
-        dateFormatted: formatDate(new Date(data.forecast.forecastday[idx].date)),
-        cityName: data.location.name,
-        weatherCode: data.forecast.forecastday[idx].day.condition.code,
-        temperature: data.forecast.forecastday[idx].day.maxtemp_c,
-        condition: data.forecast.forecastday[idx].day.condition.text,
+        dayOfWeek: new Date(dayData.date).toLocaleDateString('ru-RU', { weekday: "long" }),
+        dateFormatted: formatDate(new Date(dayData.date)),
+        weatherCode: dayData.day.condition.code,
+        temperature: dayData.day.maxtemp_c,
+        condition: dayData.day.condition.text,
     }
 });
-
-function capitalize(str) {
-    if (!str) return str;
-    const [first, ...rest] = Array.from(str);
-    return first.toUpperCase() + rest.join('');
-}
 
 const formatDate = (date) =>
     new Intl.DateTimeFormat('ru-RU', {
@@ -43,13 +38,13 @@ const formatDate = (date) =>
 </script>
 
 <template>
-    <div v-if="data" class="container">
+    <div v-if="dayData" class="container">
         <div class="upper">
             <h1>{{ displayData.dayOfWeek }}</h1>
             <p>{{ displayData.dateFormatted }}</p>
             <div class="location">
                 <IconLocation :size=80 />
-                <div class="city-name">{{ displayData.cityName }}</div>
+                <div class="city-name">{{ city }}</div>
             </div>
         </div>
         <div class="bottom">
@@ -83,6 +78,7 @@ const formatDate = (date) =>
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    text-transform: capitalize;
 }
 
 .container p {
