@@ -8,7 +8,7 @@ let data = ref();
 let error = ref();
 let activeIndex = ref(0);
 
-let city = ref("Moscow");
+let city = ref("Москва");
 provide("city", city);
 
 watch(city, () => {

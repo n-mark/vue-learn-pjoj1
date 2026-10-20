@@ -11,7 +11,7 @@ const inputValue = ref(city);
 
 function select() {
   isEdited.value = false;
-  city.value = inputValue;
+  city.value = inputValue.value;
 }
 
 function edit() {
